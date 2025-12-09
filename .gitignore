@@ -1,0 +1,8 @@
+node_modules/
+vendor/
+dist/.vite/
+wp-data/
+.DS_Store
+*.log
+.env
+

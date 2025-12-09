@@ -1,0 +1,14 @@
+{
+    "name": "hervannansanomat/hervannansanomat",
+    "description": "WordPress theme using Timber, Twig, Tailwind, and Vite.",
+    "type": "wordpress-theme",
+    "require": {
+        "timber/timber": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hervannansanomat\\": "src/php/"
+        }
+    }
+}
+
