@@ -48,62 +48,124 @@
                 <div>
                     <p class="eyebrow">Uutiset</p>
                     <h2 class="section-heading">Tuoreimmat Hervannan kuulumiset</h2>
-                    <p class="section-copy">Yliopisto, yritykset, tapahtumat ja arki – koottuna samaan lehteen.</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <a class="btn-ghost" href="{{ function('get_home_url') }}/?s=">Hae</a>
                 </div>
             </div>
 
-            {% if rest %}
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {% for post in rest %}
-                        <article class="card h-full flex flex-col">
-                            {% if post.thumbnail %}
-                                <a href="{{ post.link }}" class="block">
-                                    <img src="{{ post.thumbnail.src('medium_large') }}" alt="{{ post.title }}" class="h-48 w-full object-cover">
-                                </a>
-                            {% endif %}
-                            <div class="card-body flex-1">
-                                <div class="meta">
-                                    <span>{{ post.date('j.n.Y') }}</span>
-                                    {% set cats = post.terms('category') %}
-                                    {% if cats %}
-                                        <span class="flex flex-wrap gap-1">
-                                            {% for cat in cats %}
-                                                <span class="badge">{{ cat.name }}</span>
-                                            {% endfor %}
-                                        </span>
-                                    {% endif %}
-                                </div>
-                                <h3 class="text-xl font-serif font-semibold text-brand-dark">
-                                    <a href="{{ post.link }}">{{ post.title }}</a>
-                                </h3>
-                                {% if post.excerpt %}
-                                    <p class="text-gray-600">{{ post.excerpt({ words: 26 }) }}</p>
-                                {% endif %}
-                                <div class="mt-auto pt-3">
-                                    <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            {% endif %}
+            {% set list_posts = rest|length > 0 ? rest : posts %}
 
-            {% set pagination = posts.pagination({ mid_size: 1 }) %}
-            {% if pagination.pages %}
-                <nav class="flex flex-wrap items-center justify-center gap-2 pt-6" aria-label="Sivutus">
-                    {% for page in pagination.pages %}
-                        {% set is_current = page.class is defined and 'current' in page.class %}
-                        {% if page.link %}
-                            <a href="{{ page.link }}" class="btn-ghost px-4 py-2 {{ is_current ? 'font-bold text-brand-dark' : '' }}">{{ page.title }}</a>
-                        {% else %}
-                            <span class="btn-ghost px-4 py-2 cursor-default opacity-70">{{ page.title }}</span>
-                        {% endif %}
-                    {% endfor %}
-                </nav>
-            {% endif %}
+            <div class="grid gap-6 lg:grid-cols-4">
+                <aside class="space-y-4 lg:col-span-1">
+                    <div class="card">
+                        <div class="card-body items-start">
+                            <p class="eyebrow">Digimainokset</p>
+                            <p class="text-lg font-semibold text-brand-dark">Paikka 300x600</p>
+                            <p class="text-sm text-gray-600">Näkymä etusivun ylälaidassa.</p>
+                            <a class="btn-primary mt-2" href="{{ site.url }}/mainosta">Varaa paikka</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body items-start">
+                            <p class="eyebrow">Digimainokset</p>
+                            <p class="text-lg font-semibold text-brand-dark">Paikka 300x250</p>
+                            <p class="text-sm text-gray-600">Sijoittuu uutisvirran yhteyteen.</p>
+                            <a class="btn-secondary mt-2" href="{{ site.url }}/mainosta">Kysy hinta</a>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="lg:col-span-2 space-y-6">
+                    {% if list_posts %}
+                        <div class="grid gap-6 md:grid-cols-2">
+                            {% for post in list_posts %}
+                                <article class="card h-full flex flex-col">
+                                    {% if post.thumbnail %}
+                                        <a href="{{ post.link }}" class="block">
+                                            <img src="{{ post.thumbnail.src('medium_large') }}" alt="{{ post.title }}" class="h-48 w-full object-cover">
+                                        </a>
+                                    {% endif %}
+                                    <div class="card-body flex-1">
+                                        <div class="meta">
+                                            <span>{{ post.date('j.n.Y') }}</span>
+                                            {% set cats = post.terms('category') %}
+                                            {% if cats %}
+                                                <span class="flex flex-wrap gap-1">
+                                                    {% for cat in cats %}
+                                                        <span class="badge">{{ cat.name }}</span>
+                                                    {% endfor %}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        <h3 class="text-xl font-serif font-semibold text-brand-dark">
+                                            <a href="{{ post.link }}">{{ post.title }}</a>
+                                        </h3>
+                                        {% if post.excerpt %}
+                                            <p class="text-gray-600">{{ post.excerpt({ words: 26 }) }}</p>
+                                        {% endif %}
+                                        <div class="mt-auto pt-3">
+                                            <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
+                                        </div>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-600">Artikkeleita ei vielä ole.</p>
+                    {% endif %}
+
+                    {% set pagination = posts.pagination({ mid_size: 1 }) %}
+                    {% if pagination.pages %}
+                        <nav class="flex flex-wrap items-center justify-center gap-2 pt-2" aria-label="Sivutus">
+                            {% for page in pagination.pages %}
+                                {% set is_current = page.class is defined and 'current' in page.class %}
+                                {% if page.link %}
+                                    <a href="{{ page.link }}" class="btn-ghost px-4 py-2 {{ is_current ? 'font-bold text-brand-dark' : '' }}">{{ page.title }}</a>
+                                {% else %}
+                                    <span class="btn-ghost px-4 py-2 cursor-default opacity-70">{{ page.title }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </nav>
+                    {% endif %}
+                </div>
+
+                <aside class="space-y-4 lg:col-span-1">
+                    <div class="card">
+                        <div class="card-body items-start">
+                            <p class="eyebrow">Digimainokset</p>
+                            <p class="text-lg font-semibold text-brand-dark">Paikka 160x600</p>
+                            <p class="text-sm text-gray-600">Sivun laidassa korkealla näkyvyydellä.</p>
+                            <a class="btn-primary mt-2" href="{{ site.url }}/mainosta">Mainosta!</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body items-start">
+                            <p class="eyebrow">Mainosta tehokkaasti</p>
+                            <p class="text-sm text-gray-600">Hervannan tavoittavin paikallislehti printissä ja digissä.</p>
+                            <a class="btn-secondary mt-2" href="{{ site.url }}/mainosta">Katso hinnasto</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+        </section>
+
+        <section class="bg-brand-sand py-12 md:py-14">
+            <div class="container grid gap-8 lg:grid-cols-2 lg:items-center">
+                <div class="space-y-4">
+                    <p class="eyebrow">Mainosta tehokkaasti</p>
+                    <h2 class="section-heading">Näy Hervannassa – printti ja digi samassa paketissa</h2>
+                    <p class="section-copy">Suunniteltu yrityksille, järjestöille ja tapahtumille, jotka haluavat tavoittaa Hervannan opiskelijat, työntekijät ja asukkaat.</p>
+                    <div class="flex gap-3">
+                        <a class="btn-primary" href="{{ site.url }}/mainosta">Katso mediakortti</a>
+                        <a class="btn-secondary" href="mailto:hsilmo@hervannansanomat.fi">Pyydä tarjous</a>
+                    </div>
+                </div>
+                <div class="rounded-2xl bg-white p-4 shadow-card ring-1 ring-black/5">
+                    <img src="https://static.wixstatic.com/media/c6458e_02424c2e659e46bc8b08325992669aba~mv2.png/v1/fill/w_621,h_878,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Mediakortti%202025JN_1.png" alt="Hervannan Sanomat mediakortti" class="w-full rounded-xl object-contain">
+                </div>
+            </div>
         </section>
     {% else %}
         <section class="container py-16">

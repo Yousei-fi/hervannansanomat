@@ -1,0 +1,61 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <section class="bg-brand-sand py-12 md:py-16">
+        <div class="container grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div class="space-y-4">
+                <p class="eyebrow">Mainosta</p>
+                <h1 class="text-4xl font-serif font-semibold text-brand-dark md:text-5xl leading-tight">Mainosta tehokkaasti Hervannassa</h1>
+                <p class="section-copy">Paikallinen lehti, joka tavoittaa opiskelijat, yritykset ja asukkaat. Printti ja digi samassa paketissa – keskiviikkoisin kotiin ja verkossa joka päivä.</p>
+                <ul class="space-y-2 text-sm text-gray-700">
+                    <li>• Ilmoitukset printissä ja digissä yhdellä tilauksella</li>
+                    <li>• Kohdennetut digimainokset etusivun paikoissa (300x600, 300x250, 160x600)</li>
+                    <li>• Toimituksellinen ympäristö, korkea paikallinen luottamus</li>
+                </ul>
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <a class="btn-primary" href="mailto:hsilmo@hervannansanomat.fi">Pyydä tarjous</a>
+                    <a class="btn-secondary" href="tel:0400859766">Soita: 0400 859 766</a>
+                </div>
+            </div>
+            <div class="rounded-2xl bg-white p-4 shadow-card ring-1 ring-black/5">
+                <img src="https://static.wixstatic.com/media/c6458e_02424c2e659e46bc8b08325992669aba~mv2.png/v1/fill/w_621,h_878,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Mediakortti%202025JN_1.png" alt="Hervannan Sanomat mediakortti 2025" class="w-full rounded-xl object-contain">
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-12 lg:py-16 space-y-10">
+        <div class="grid gap-8 md:grid-cols-3">
+            <div class="card">
+                <div class="card-body items-start">
+                    <p class="eyebrow">Printti</p>
+                    <p class="text-lg font-semibold text-brand-dark">Lehti joka keskiviikko</p>
+                    <p class="text-sm text-gray-700">Jakelu Hervannassa ja lähialueilla, 50 vuoden paikallinen luottamus.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body items-start">
+                    <p class="eyebrow">Digi</p>
+                    <p class="text-lg font-semibold text-brand-dark">Etusivun digipaikat</p>
+                    <p class="text-sm text-gray-700">300x600, 300x250, 160x600 – näyttävät sijoittelut mobiilissa ja desktopissa.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body items-start">
+                    <p class="eyebrow">Yhteistyö</p>
+                    <p class="text-lg font-semibold text-brand-dark">Sisältöyhteistyö</p>
+                    <p class="text-sm text-gray-700">Nostetaan yrityksesi esiin artikkeleissa ja teemanumeroissa.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body items-start gap-4">
+                <p class="eyebrow">Materiaalit & aikataulut</p>
+                <p class="text-sm text-gray-700">Lähetä aineistot viimeistään perjantaina klo 12 seuraavan viikon lehteen. Aineistomuodot: PDF, PNG, JPG. Tarvitsetko suunnitteluapua? Kysy meiltä niin autamme.</p>
+                <a class="btn-primary" href="mailto:hsilmo@hervannansanomat.fi">Varaa paikka</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

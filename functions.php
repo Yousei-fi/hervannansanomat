@@ -35,6 +35,11 @@ class HervannansanomatTheme extends \Timber\Site {
         $context['menu'] = \Timber\Timber::get_menu('main_menu');
         $context['site'] = $this;
         $context['theme_logo'] = get_template_directory_uri() . '/src/assets/hersa-logo.png';
+        $context['categories'] = \Timber\Timber::get_terms([
+            'taxonomy' => 'category',
+            'hide_empty' => true,
+            'parent' => 0,
+        ]);
 
         return $context;
     }
