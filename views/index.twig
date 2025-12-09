@@ -91,10 +91,18 @@
                 </div>
             {% endif %}
 
-            {% if posts.pagination %}
-                <div class="flex justify-center pt-6">
-                    {{ posts.pagination({ prev_text: 'Edellinen', next_text: 'Seuraava' }) }}
-                </div>
+            {% set pagination = posts.pagination({ mid_size: 1 }) %}
+            {% if pagination.pages %}
+                <nav class="flex flex-wrap items-center justify-center gap-2 pt-6" aria-label="Sivutus">
+                    {% for page in pagination.pages %}
+                        {% set is_current = page.class is defined and 'current' in page.class %}
+                        {% if page.link %}
+                            <a href="{{ page.link }}" class="btn-ghost px-4 py-2 {{ is_current ? 'font-bold text-brand-dark' : '' }}">{{ page.title }}</a>
+                        {% else %}
+                            <span class="btn-ghost px-4 py-2 cursor-default opacity-70">{{ page.title }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
             {% endif %}
         </section>
     {% else %}
