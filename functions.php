@@ -24,6 +24,7 @@ class HervannansanomatTheme extends \Timber\Site {
             'flex-width' => true,
         ]);
         add_theme_support('site-icon');
+        add_theme_support('html5', ['search-form', 'comment-list', 'comment-form', 'gallery', 'caption']);
 
         register_nav_menus([
             'main_menu' => __('Main Menu', 'hervannansanomat'),
@@ -33,6 +34,7 @@ class HervannansanomatTheme extends \Timber\Site {
     public function add_to_context(array $context): array {
         $context['menu'] = \Timber\Timber::get_menu('main_menu');
         $context['site'] = $this;
+        $context['theme_logo'] = get_template_directory_uri() . '/src/assets/hersa-logo.png';
 
         return $context;
     }

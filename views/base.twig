@@ -6,8 +6,83 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     {{ function('wp_head') }}
 </head>
-<body class="{{ body_class }}">
-    {% block content %}{% endblock %}
+<body class="{{ body_class }} bg-brand-light text-ink">
+    {{ function('wp_body_open') }}
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-brand-dark focus:shadow-soft">Ohita sisältöön</a>
+
+    <div class="min-h-screen flex flex-col">
+        <header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
+            <div class="container flex items-center justify-between gap-4 py-4">
+                <div class="flex items-center gap-3">
+                    <a href="{{ site.url }}" class="flex items-center gap-3">
+                        {% if theme_logo %}
+                            <img src="{{ theme_logo }}" alt="{{ site.name }}" class="h-10 w-auto">
+                        {% elseif function('has_custom_logo') %}
+                            {{ function('the_custom_logo') }}
+                        {% else %}
+                            <span class="text-xl font-serif font-semibold text-brand-dark">{{ site.name }}</span>
+                        {% endif %}
+                    </a>
+                    <span class="hidden md:inline-flex items-center rounded-full bg-brand-sand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-dark">Paikallinen vuodesta 1975</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <nav class="hidden md:flex items-center gap-6" aria-label="Päävalikko">
+                        {% if menu %}
+                            {% for item in menu.items %}
+                                <a class="nav-link" href="{{ item.link }}">{{ item.title }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </nav>
+                    <button type="button" class="btn-ghost md:hidden" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>
+                        <span class="sr-only">Valikko</span>
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-nav" class="md:hidden border-t border-black/5 bg-white shadow-soft hidden" data-nav-panel>
+                <div class="container py-4 flex flex-col gap-3">
+                    {% if menu %}
+                        {% for item in menu.items %}
+                            <a class="nav-link py-2" href="{{ item.link }}">{{ item.title }}</a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <main id="main" class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="mt-12 border-t border-black/5 bg-white">
+            <div class="container grid gap-10 py-12 md:grid-cols-3">
+                <div class="space-y-3">
+                    <p class="eyebrow">Hervannansanomat</p>
+                    <p class="text-lg font-serif font-semibold text-brand-dark">Tulemme kotiisi joka keskiviikko.</p>
+                    <p class="text-sm text-gray-600">Aidosti paikallinen jo vuodesta 1975. Hervannan, opiskelijoiden ja yritysten yhteisölehti.</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="eyebrow">Yhteystiedot</p>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p>Pietilänkatu 1<br>33720 Tampere</p>
+                        <p>Toimitus: <a class="underline" href="mailto:hs@hervannansanomat.fi">hs@hervannansanomat.fi</a><br>Ilmoitukset: <a class="underline" href="mailto:hsilmo@hervannansanomat.fi">hsilmo@hervannansanomat.fi</a></p>
+                        <p>Jakelupalaute: 0400 859 766</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <p class="eyebrow">Seuraa</p>
+                    <div class="flex gap-3">
+                        <a class="btn-ghost" href="https://www.facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+                        <a class="btn-ghost" href="https://www.instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+                    </div>
+                    <p class="text-xs text-gray-500">Painos ja jakelu paikallisesti Hervannassa ja lähialueilla.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
     {{ function('wp_footer') }}
 </body>
 </html>

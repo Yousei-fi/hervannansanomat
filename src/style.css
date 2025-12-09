@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply font-sans antialiased;
+    @apply font-sans antialiased text-ink bg-brand-light;
     line-height: 1.7;
   }
 
@@ -23,15 +23,23 @@
   ::selection {
     @apply bg-gray-900 text-white;
   }
+
+  img {
+    @apply max-w-full h-auto;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-soft bg-gray-900 px-6 py-3 text-sm font-semibold text-white shadow-soft transition duration-200 hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-sm font-semibold text-black shadow-soft transition duration-200 hover:bg-[#76a91f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-soft border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition duration-200 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-ink transition duration-200 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark/20 focus-visible:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-ink hover:bg-brand-smoke;
   }
 
   .section-heading {
@@ -46,6 +54,34 @@
 
   .eyebrow {
     @apply text-xs font-semibold uppercase tracking-[0.2em] text-gray-500;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-sand px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-dark;
+  }
+
+  .nav-link {
+    @apply text-sm font-semibold text-ink hover:text-brand-dark;
+  }
+
+  .card {
+    @apply overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg;
+  }
+
+  .card-body {
+    @apply p-6 flex flex-col gap-3;
+  }
+
+  .meta {
+    @apply flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.12em] text-gray-500;
+  }
+
+  .prose-news {
+    @apply prose prose-lg prose-slate max-w-none prose-img:rounded-xl prose-a:text-brand-green prose-a:font-semibold hover:prose-a:text-brand-dark;
+  }
+
+  .divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent;
   }
 }
 

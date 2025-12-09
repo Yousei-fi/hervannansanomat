@@ -1,17 +1,106 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    <main>
-        {% if posts %}
-            {% for post in posts %}
-                <article>
-                    <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
-                    <div>{{ post.content }}</div>
-                </article>
-            {% endfor %}
-        {% else %}
-            <p>No posts found.</p>
-        {% endif %}
-    </main>
+    {% if posts %}
+        {% set featured = posts|first %}
+        {% set rest = posts|slice(1) %}
+
+        <section class="bg-gradient-to-b from-white via-brand-smoke/60 to-brand-light py-10 md:py-14">
+            <div class="container grid gap-10 lg:grid-cols-2 lg:items-center">
+                <div class="space-y-4">
+                    <p class="eyebrow">Tuorein juttu</p>
+                    <h1 class="text-4xl font-serif font-semibold text-brand-dark md:text-5xl">{{ featured.title }}</h1>
+                    <div class="meta">
+                        <span>{{ featured.date('j.n.Y') }}</span>
+                        {% set cats = featured.terms('category') %}
+                        {% if cats %}
+                            <span class="flex flex-wrap gap-2">
+                                {% for cat in cats %}
+                                    <span class="badge">{{ cat.name }}</span>
+                                {% endfor %}
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if featured.excerpt %}
+                        <p class="text-lg text-gray-700">{{ featured.excerpt(32) }}</p>
+                    {% endif %}
+                    <div class="flex gap-3">
+                        <a href="{{ featured.link }}" class="btn-primary">Lue juttu</a>
+                        <a href="{{ function('get_permalink', function('get_option','page_for_posts')) }}" class="btn-secondary">Näytä kaikki</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    {% if featured.thumbnail %}
+                        <div class="rounded-2xl bg-white p-2 shadow-card ring-1 ring-black/5">
+                            <img src="{{ featured.thumbnail.src('large') }}" alt="{{ featured.title }}" class="h-full w-full rounded-xl object-cover">
+                        </div>
+                    {% else %}
+                        <div class="rounded-2xl bg-white p-10 shadow-card ring-1 ring-black/5">
+                            <p class="text-gray-500">Ei esittelykuvaa</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="container py-12 space-y-8">
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="eyebrow">Uutiset</p>
+                    <h2 class="section-heading">Tuoreimmat Hervannan kuulumiset</h2>
+                    <p class="section-copy">Yliopisto, yritykset, tapahtumat ja arki – koottuna samaan lehteen.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <a class="btn-ghost" href="{{ function('get_home_url') }}/?s=">Hae</a>
+                </div>
+            </div>
+
+            {% if rest %}
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {% for post in rest %}
+                        <article class="card h-full flex flex-col">
+                            {% if post.thumbnail %}
+                                <a href="{{ post.link }}" class="block">
+                                    <img src="{{ post.thumbnail.src('medium_large') }}" alt="{{ post.title }}" class="h-48 w-full object-cover">
+                                </a>
+                            {% endif %}
+                            <div class="card-body flex-1">
+                                <div class="meta">
+                                    <span>{{ post.date('j.n.Y') }}</span>
+                                    {% set cats = post.terms('category') %}
+                                    {% if cats %}
+                                        <span class="flex flex-wrap gap-1">
+                                            {% for cat in cats %}
+                                                <span class="badge">{{ cat.name }}</span>
+                                            {% endfor %}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="text-xl font-serif font-semibold text-brand-dark">
+                                    <a href="{{ post.link }}">{{ post.title }}</a>
+                                </h3>
+                                {% if post.excerpt %}
+                                    <p class="text-gray-600">{{ post.excerpt(26) }}</p>
+                                {% endif %}
+                                <div class="mt-auto pt-3">
+                                    <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if posts.pagination %}
+                <div class="flex justify-center pt-6">
+                    {{ posts.pagination({ prev_text: 'Edellinen', next_text: 'Seuraava' }) }}
+                </div>
+            {% endif %}
+        </section>
+    {% else %}
+        <section class="container py-16">
+            <p>Ei artikkeleita vielä.</p>
+        </section>
+    {% endif %}
 {% endblock %}
 

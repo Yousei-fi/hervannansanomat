@@ -1,0 +1,49 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <section class="container py-12 lg:py-16">
+        <article class="mx-auto max-w-3xl space-y-8">
+            <header class="space-y-4">
+                <p class="eyebrow">{{ post.date('j.n.Y') }}</p>
+                <h1 class="text-4xl font-serif font-semibold text-brand-dark md:text-5xl leading-tight">{{ post.title }}</h1>
+                <div class="meta">
+                    {% set cats = post.terms('category') %}
+                    {% if cats %}
+                        <span class="flex flex-wrap gap-2">
+                            {% for cat in cats %}
+                                <span class="badge">{{ cat.name }}</span>
+                            {% endfor %}
+                        </span>
+                    {% endif %}
+                    {% if post.author %}
+                        <span>Kirjoittaja: {{ post.author.name }}</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if post.thumbnail %}
+                <figure class="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5">
+                    <img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="w-full object-cover">
+                    {% if post.thumbnail.caption %}
+                        <figcaption class="px-4 py-3 text-sm text-gray-600">{{ post.thumbnail.caption }}</figcaption>
+                    {% endif %}
+                </figure>
+            {% endif %}
+
+            <div class="prose-news">
+                {{ post.content }}
+            </div>
+
+            {% if post.tags %}
+                <div class="divider"></div>
+                <div class="flex flex-wrap gap-2 text-sm">
+                    {% for tag in post.tags %}
+                        <span class="badge">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}
+
+

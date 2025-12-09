@@ -1,0 +1,17 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <section class="container py-12 lg:py-16">
+        <article class="mx-auto max-w-3xl space-y-8">
+            <header class="space-y-3">
+                <p class="eyebrow">Sivu</p>
+                <h1 class="text-4xl font-serif font-semibold text-brand-dark md:text-5xl leading-tight">{{ post.title }}</h1>
+            </header>
+            <div class="prose-news">
+                {{ post.content }}
+            </div>
+        </article>
+    </section>
+{% endblock %}
+
+

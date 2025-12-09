@@ -1,0 +1,62 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <section class="bg-white py-10 md:py-14">
+        <div class="container space-y-3">
+            <p class="eyebrow">Haku</p>
+            <h1 class="section-heading">Tulokset haulle “{{ function('get_search_query') }}”</h1>
+            <form role="search" method="get" action="{{ function('home_url', '/') }}" class="mt-4 flex flex-col gap-3 md:flex-row">
+                <label for="search-field" class="sr-only">Hae</label>
+                <input id="search-field" class="w-full rounded-full border-gray-300 focus:border-brand-green focus:ring-brand-green" type="search" name="s" value="{{ function('get_search_query') }}" placeholder="Etsi uutisia...">
+                <button class="btn-primary md:w-auto" type="submit">Hae</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="container py-10">
+        {% if posts %}
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {% for post in posts %}
+                    <article class="card h-full flex flex-col">
+                        {% if post.thumbnail %}
+                            <a href="{{ post.link }}" class="block">
+                                <img src="{{ post.thumbnail.src('medium_large') }}" alt="{{ post.title }}" class="h-44 w-full object-cover">
+                            </a>
+                        {% endif %}
+                        <div class="card-body flex-1">
+                            <div class="meta">
+                                <span>{{ post.date('j.n.Y') }}</span>
+                                {% set cats = post.terms('category') %}
+                                {% if cats %}
+                                    <span class="flex flex-wrap gap-1">
+                                        {% for cat in cats %}
+                                            <span class="badge">{{ cat.name }}</span>
+                                        {% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <h2 class="text-xl font-serif font-semibold text-brand-dark">
+                                <a href="{{ post.link }}">{{ post.title }}</a>
+                            </h2>
+                            {% if post.excerpt %}
+                                <p class="text-gray-600">{{ post.excerpt(24) }}</p>
+                            {% endif %}
+                            <div class="mt-auto pt-3">
+                                <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+            {% if posts.pagination %}
+                <div class="flex justify-center pt-8">
+                    {{ posts.pagination({ prev_text: 'Edellinen', next_text: 'Seuraava' }) }}
+                </div>
+            {% endif %}
+        {% else %}
+            <p>Ei tuloksia. Kokeile toista hakusanaa.</p>
+        {% endif %}
+    </section>
+{% endblock %}
+
+
