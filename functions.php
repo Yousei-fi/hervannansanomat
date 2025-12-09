@@ -10,6 +10,8 @@ class HervannansanomatTheme extends \Timber\Site {
         add_action('after_setup_theme', [$this, 'theme_supports']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
         add_filter('timber/context', [$this, 'add_to_context']);
+        add_action('pre_get_posts', [$this, 'restrict_search_to_posts']);
+        add_action('template_redirect', [$this, 'landing_page_fallbacks']);
         parent::__construct();
     }
 
@@ -44,6 +46,22 @@ class HervannansanomatTheme extends \Timber\Site {
         return $context;
     }
 
+    public function restrict_search_to_posts(\WP_Query $query): void {
+        if (!is_admin() && $query->is_main_query() && $query->is_search()) {
+            $query->set('post_type', 'post');
+        }
+    }
+
+    public function landing_page_fallbacks(): void {
+        global $wp;
+        $request = isset($wp->request) ? trim($wp->request, '/') : trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        if (in_array($request, ['nakoislehti', 'mainosta'], true)) {
+            status_header(200);
+            \Timber\Timber::render($request . '.twig', \Timber\Timber::context());
+            exit;
+        }
+    }
+
     public function enqueue_assets(): void {
         $theme_version = wp_get_theme()->get('Version');
 
@@ -65,4 +83,30 @@ class HervannansanomatTheme extends \Timber\Site {
 }
 
 new HervannansanomatTheme();
+
+if (defined('WP_CLI') && WP_CLI) {
+    \WP_CLI::add_command('hervannansanomat seed-posts', function () {
+        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis, sem at gravida aliquet, velit nulla facilisis nibh, vitae condimentum nisl risus at ipsum.';
+        for ($i = 1; $i <= 10; $i++) {
+            $title = "Paikallisuutinen {$i}";
+            $existing = get_page_by_title($title, OBJECT, 'post');
+            if ($existing) {
+                \WP_CLI::log("Skipping existing: {$title}");
+                continue;
+            }
+            $post_id = wp_insert_post([
+                'post_title'   => $title,
+                'post_content' => $lorem . "\n\n" . $lorem,
+                'post_status'  => 'publish',
+                'post_author'  => 1,
+                'post_type'    => 'post',
+            ]);
+            if (is_wp_error($post_id)) {
+                \WP_CLI::warning("Failed to create {$title}: " . $post_id->get_error_message());
+            } else {
+                \WP_CLI::success("Created {$title}");
+            }
+        }
+    });
+}
 

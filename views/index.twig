@@ -26,7 +26,6 @@
                     {% endif %}
                     <div class="flex gap-3">
                         <a href="{{ featured.link }}" class="btn-primary">Lue juttu</a>
-                        <a href="{{ function('get_permalink', function('get_option','page_for_posts')) }}" class="btn-secondary">Näytä kaikki</a>
                     </div>
                 </div>
                 <div class="relative">
@@ -49,9 +48,11 @@
                     <p class="eyebrow">Uutiset</p>
                     <h2 class="section-heading">Tuoreimmat Hervannan kuulumiset</h2>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                    <a class="btn-ghost" href="{{ function('get_home_url') }}/?s=">Hae</a>
-                </div>
+                <form role="search" method="get" action="{{ function('home_url', '/') }}" class="flex flex-col gap-3 md:flex-row md:items-center">
+                    <label class="sr-only" for="front-search">Hae</label>
+                    <input id="front-search" class="w-full rounded-full border-gray-300 focus:border-brand-green focus:ring-brand-green" type="search" name="s" placeholder="Etsi uutisia..." />
+                    <button class="btn-primary md:w-auto" type="submit">Hae</button>
+                </form>
             </div>
 
             {% set list_posts = rest|length > 0 ? rest : posts %}
@@ -105,7 +106,7 @@
                                             <p class="text-gray-600">{{ post.excerpt({ words: 26 }) }}</p>
                                         {% endif %}
                                         <div class="mt-auto pt-3">
-                                            <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
+                                            <a class="btn-primary" href="{{ post.link }}">Lue juttu</a>
                                         </div>
                                     </div>
                                 </article>
