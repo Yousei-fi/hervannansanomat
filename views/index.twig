@@ -22,7 +22,7 @@
                         {% endif %}
                     </div>
                     {% if featured.excerpt %}
-                        <p class="text-lg text-gray-700">{{ featured.excerpt(32) }}</p>
+                        <p class="text-lg text-gray-700">{{ featured.excerpt({ words: 32 }) }}</p>
                     {% endif %}
                     <div class="flex gap-3">
                         <a href="{{ featured.link }}" class="btn-primary">Lue juttu</a>
@@ -80,7 +80,7 @@
                                     <a href="{{ post.link }}">{{ post.title }}</a>
                                 </h3>
                                 {% if post.excerpt %}
-                                    <p class="text-gray-600">{{ post.excerpt(26) }}</p>
+                                    <p class="text-gray-600">{{ post.excerpt({ words: 26 }) }}</p>
                                 {% endif %}
                                 <div class="mt-auto pt-3">
                                     <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>

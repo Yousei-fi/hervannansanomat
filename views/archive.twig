@@ -37,7 +37,7 @@
                                 <a href="{{ post.link }}">{{ post.title }}</a>
                             </h2>
                             {% if post.excerpt %}
-                                <p class="text-gray-600">{{ post.excerpt(24) }}</p>
+                                <p class="text-gray-600">{{ post.excerpt({ words: 24 }) }}</p>
                             {% endif %}
                             <div class="mt-auto pt-3">
                                 <a class="btn-ghost" href="{{ post.link }}">Lue lisää →</a>
